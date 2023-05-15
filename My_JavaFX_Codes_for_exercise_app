@@ -1,0 +1,140 @@
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+
+interface Exercise {
+    void perform();
+}
+
+abstract class ExerciseEquipment {
+    protected String name;
+
+    public ExerciseEquipment(String name) {
+        this.name = name;
+    }
+
+    public abstract void use();
+}
+
+class Treadmill extends ExerciseEquipment {
+    private int speed;
+
+    public Treadmill(String name, int speed) {
+        super(name);
+        this.speed = speed;
+    }
+
+    @Override
+    public void use() {
+        System.out.println("Using the treadmill: " + name + " at speed " + speed);
+    }
+}
+
+class Dumbbell extends ExerciseEquipment {
+    private int weight;
+
+    public Dumbbell(String name, int weight) {
+        super(name);
+        this.weight = weight;
+    }
+
+    @Override
+    public void use() {
+        System.out.println("Using the dumbbell: " + name + " with weight " + weight + "kg");
+    }
+}
+
+class PushUpExercise implements Exercise {
+    private int repetitions;
+
+    public PushUpExercise(int repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    @Override
+    public void perform() {
+        System.out.println("Performing push-ups: " + repetitions + " repetitions");
+    }
+}
+
+class SitUpExercise implements Exercise {
+    private int repetitions;
+
+    public SitUpExercise(int repetitions) {
+        this.repetitions = repetitions;
+    }
+
+    @Override
+    public void perform() {
+        System.out.println("Performing sit-ups: " + repetitions + " repetitions");
+    }
+}
+
+class User {
+    private String name;
+    private int age;
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public void introduce() {
+        System.out.println("Name: " + name);
+        System.out.println("Age: " + age);
+    }
+}
+
+public class ExerciseApplication extends Application {
+
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Exercise Application");
+
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(5);
+        gridPane.setHgap(5);
+
+        Label nameLabel = new Label("Name:");
+        GridPane.setConstraints(nameLabel, 0, 0);
+        gridPane.getChildren().add(nameLabel);
+
+        TextField nameField = new TextField();
+        GridPane.setConstraints(nameField, 1, 0);
+        gridPane.getChildren().add(nameField);
+
+        Label ageLabel = new Label("Age:");
+        GridPane.setConstraints(ageLabel, 0, 1);
+        gridPane.getChildren().add(ageLabel);
+
+        TextField ageField = new TextField();
+        GridPane.setConstraints(ageField, 1, 1);
+        gridPane.getChildren().add(ageField);
+
+        Button submitButton = new Button("Submit");
+        GridPane.setConstraints(submitButton, 1, 2);
+        gridPane.getChildren().add(submitButton);
+
+        submitButton.setOnAction(event -> {
+            String name = nameField.getText();
+            int age = Integer.parseInt(ageField.getText());
+
+            User user = new User(name, age);
+            user.introduce();
+        });
+
+        Scene scene = new Scene(gridPane, 300, 200);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
