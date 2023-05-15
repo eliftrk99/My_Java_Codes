@@ -1,0 +1,206 @@
+import javafx.application.Application;
+
+import javafx.event.ActionEvent;
+
+import javafx.event.EventHandler;
+
+import javafx.geometry.Insets;
+
+import javafx.scene.Scene;
+
+import javafx.scene.control.*;
+
+import javafx.scene.layout.GridPane;
+
+import javafx.stage.Stage;
+
+// Abstract class
+
+abstract class GymClass {
+
+    private String className;
+
+    public GymClass(String className) {
+
+        this.className = className;
+
+    }
+
+    public abstract void displayClassDetails();
+
+    // Encapsulation
+
+    public String getClassName() {
+
+        return className;
+
+    }
+
+    public void setClassName(String className) {
+
+        this.className = className;
+
+    }
+
+}
+
+// Concrete classes
+
+class YogaClass extends GymClass {
+
+    private String instructorName;
+
+    public YogaClass(String className, String instructorName) {
+
+        super(className);
+
+        this.instructorName = instructorName;
+
+    }
+
+    @Override
+
+    public void displayClassDetails() {
+
+        System.out.println("Yoga Class: " + getClassName());
+
+        System.out.println("Instructor: " + instructorName);
+
+    }
+
+}
+
+class CrossfitClass extends GymClass {
+
+    private int maxParticipants;
+
+    public CrossfitClass(String className, int maxParticipants) {
+
+        super(className);
+
+        this.maxParticipants = maxParticipants;
+
+    }
+
+    @Override
+
+    public void displayClassDetails() {
+
+        System.out.println("Crossfit Class: " + getClassName());
+
+        System.out.println("Max Participants: " + maxParticipants);
+
+    }
+
+}
+
+// Interface
+
+interface GymMember {
+
+    void displayMemberInfo();
+
+}
+
+// Concrete class implementing interface and inheritance
+
+class RegularMember extends GymClass implements GymMember {
+
+    private String memberName;
+
+    private int age;
+
+    public RegularMember(String className, String memberName, int age) {
+
+        super(className);
+
+        this.memberName = memberName;
+
+        this.age = age;
+
+    }
+
+    @Override
+
+    public void displayClassDetails() {
+
+        System.out.println("Regular Member: " + memberName);
+
+        System.out.println("Age: " + age);
+
+        System.out.println("Class: " + getClassName());
+
+    }
+
+    @Override
+
+    public void displayMemberInfo() {
+
+        System.out.println("Member: " + memberName);
+
+        System.out.println("Age: " + age);
+
+    }
+
+}
+
+public class GymApplication extends Application {
+
+    public static void main(String[] args) {
+
+        launch(args);
+
+    }
+
+    @Override
+
+    public void start(Stage primaryStage) {
+
+        primaryStage.setTitle("Gym Application");
+
+        GridPane gridPane = new GridPane();
+
+        gridPane.setPadding(new Insets(20));
+
+        gridPane.setVgap(10);
+
+        gridPane.setHgap(10);
+
+        // Label
+
+        Label nameLabel = new Label("Name:");
+
+        GridPane.setConstraints(nameLabel, 0, 0);
+
+        // Text Field
+
+        TextField nameTextField = new TextField();
+
+        GridPane.setConstraints(nameTextField, 1, 0);
+
+        // Button
+
+        Button submitButton = new Button("Submit");
+
+        GridPane.setConstraints(submitButton, 1, 1);
+
+        // Event handling for the submit button
+
+        submitButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+
+            public void handle(ActionEvent event) {
+
+                String name = nameTextField.getText();
+
+                System.out.println("Submitted Name: " + name);
+
+            }
+
+        });
+
+        gridPane.getChildren().addAll(nameLabel, nameTextField, submitButton);
+
+        Scene scene = new Scene(gridPane, 300, 200);
+
